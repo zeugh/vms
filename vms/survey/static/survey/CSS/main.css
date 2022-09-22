@@ -1,0 +1,71 @@
+/* Sizing */
+html,
+body {
+  height: 100%;
+}
+.min-height-80 {
+  min-height: 80vh;
+}
+
+.min-height-70 {
+  min-height: 70vh;
+}
+
+.button-size {
+  width: 120px;
+  height: 50px;
+}
+
+.logo {
+  width: 150px;
+  height: 60px;
+  border-radius: 10px;
+  background-color: aliceblue;
+  padding: 3px 0px;
+}
+
+.logo img {
+  width: auto;
+  height: 80%;
+}
+
+/* Visual Effects */
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.box-shadow {
+  box-shadow: 0px 0px 5px #333;
+}
+
+/* Invisible Scroll Bar */
+.disable-scrollbars::-webkit-scrollbar {
+  background: transparent; /* Chrome/Safari/Webkit */
+  width: 0px;
+}
+
+.disable-scrollbars {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .txt-sm {
+    font-size: smaller;
+  }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 200px) {
+  .img-rmv {
+    display: none;
+  }
+}
