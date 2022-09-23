@@ -62,7 +62,7 @@ Now you are ready to run the django server. You can `manage.py` within the vms d
 ```shell
 $ python3 manage.py runserver
 or
-$ python3 manage.py runserver 0.0.0.0:8000
+$ python3 manage.py runserver 0.0.0.0:80
 ```
 
 Open your browser to access the web app:
