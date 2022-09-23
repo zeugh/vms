@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Site, Visitor, History
+from .models import Site, Visitor, History, Trusted_role
 from django.http import HttpResponse
 import csv
 
@@ -93,6 +93,33 @@ class SiteAdmin(admin.ModelAdmin):
   list_display = ['name','accomodation']
   list_filter = ('accomodation',)
 
+@admin.register(Trusted_role)
+class Trusted_roleAdmin(admin.ModelAdmin):
+  # defining a django action function to export visitor data to a csv file
+  def export_as_csv(self, request, queryset):
+    meta = self.model._meta
+    field_names = [field.name for field in meta.fields]
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
+    writer = csv.writer(response)
+    writer.writerow(field_names)
+    for obj in queryset:
+      writer.writerow([getattr(obj, field) for field in field_names])
+    return response
+  export_as_csv.short_description = "Export Selected"
+
+  actions = ["export_as_csv"]
+  
+  fieldsets = (
+    ("Trusted Role Details", {'fields': (('name','role'),)}
+    ),
+  )
+  
+  list_display = [
+    'name',
+    'role']
+  list_filter = ('role',)
+
 @admin.register(Visitor)
 class VisitorAdmin(admin.ModelAdmin):
   # defining a django action function to export visitor data to a csv file
@@ -122,7 +149,7 @@ class VisitorAdmin(admin.ModelAdmin):
 
   fieldsets = (
     ("Visitor's Contact Information",{
-      'fields':(('first_name','last_name'),('email','phone_number'),'role','reason')
+      'fields':(('first_name','last_name'),('email','phone_number'),('role','institution'),('reason','trusted_role'))
     }),
     ("Visitation Status",{
       'fields':('checkin','checkout', 'site')
@@ -131,13 +158,15 @@ class VisitorAdmin(admin.ModelAdmin):
 
   list_display = [
     'visitor_name',
-    'role',
     'email',
     'phone_number',
+    'role',
+    'institution',
     'checkin',
     'checkout',
     'site',
-    'reason'
+    'reason',
+    'trusted_role'
   ]
 
   list_filter = ('site','checkout', 'checkin', 'role', 'reason',)
@@ -163,7 +192,14 @@ class HistoryAdmin(admin.ModelAdmin):
   actions = ["export_as_csv"]
 
   #list_display = ['visitor_name', 'role', 'email', 'checkin', 'checkout', 'site', 'reason']
-  list_display = ['visitor', 'checkin', 'checkout', 'site']
+  list_display = [
+    'visitor', 
+    'role', 
+    'institution', 
+    'checkin', 
+    'checkout', 
+    'site', 
+    'reason']
   list_display_links = ['visitor']
   list_filter = ('site','checkin', 'checkout',)
   search_fields =["visitor__first_name", "visitor__last_name"]

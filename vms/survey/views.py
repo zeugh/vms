@@ -36,14 +36,17 @@ def sign_out(request):
                 checkout=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 #checkout=datetime.now().strftime("%Y-%m-%d %I:%M %p"),
                 site=this_visitor.site,
-                visitor=this_visitor
+                visitor=this_visitor,
+                role=this_visitor.role,
+                institution=this_visitor.institution,
+                reason=this_visitor.reason
             )
             history.save()
             # Checkout visitor
             this_visitor.checkout = True
             this_visitor.save()
             pk = this_visitor.site.id
-            messages.success(request, 'Signed out successfully')
+            messages.success(request, 'Check Out Sukses')
             return redirect('enter_exit', pk=pk)
     # If request is GET just render the form and Sign out page
     context = {
@@ -79,7 +82,7 @@ def sign_in(request, pk):
             visitor.checkin = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             #visitor.checkin = datetime.now().strftime("%Y-%m-%d %I:%M %p")
             visitor.save()
-            messages.success(request, 'Signed in Successfully.')
+            messages.success(request, 'Check In Sukses.')
             return redirect('enter_exit', pk=pk)
 
     context = {

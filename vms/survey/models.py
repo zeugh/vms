@@ -11,7 +11,14 @@ class Site(models.Model):
 
     def __str__(self):
         return self.name
+'''Trusted role'''
+class Trusted_role(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    name = models.CharField(max_length=100, unique=True)
+    role = models.CharField(max_length=100, unique=True)
 
+    def __str__(self):
+        return self.name
 
 '''Visitors are first stored when they check in for the first time. Subsequent
    checkin updates these fields.'''
@@ -35,11 +42,13 @@ class Visitor(models.Model):
     email = models.EmailField(max_length=200, null=False, blank=False, unique=True)
     phone_number = models.CharField(max_length=20, null=False, blank=False, validators=[validate_phone])
     role = models.CharField(max_length=50, null=False, blank=False)
+    institution = models.CharField(max_length=50, null=False, blank=False)
     reason = models.CharField(max_length=50, null=True, blank=True)
     checkin = models.DateTimeField(default=datetime.now().strftime("%Y-%m-%d %H:%M:%S"), editable=False)
     # Stores which site visitor is currently checked in. If visitor is checked out,
     # it stores their last visited site.
     site = models.ForeignKey(Site, blank=True, null=True, on_delete=models.CASCADE)
+    trusted_role = models.ForeignKey(Trusted_role, blank=True, null=True, on_delete=models.CASCADE)
     # If visitor is currently in the building, checkout is false. If they sign out,
     # checkout is true.
     checkout = models.BooleanField(default=False)
@@ -53,8 +62,12 @@ class History(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     checkin = models.DateTimeField(null=False, blank=False, editable=False)
     checkout = models.DateTimeField(null=False, blank=False, editable=False)
-    site = models.ForeignKey(Site, blank=True, on_delete=models.PROTECT)
+    site = models.ForeignKey(Site, on_delete=models.PROTECT)
     visitor = models.ForeignKey(Visitor, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=50, null=True, blank=True, editable=False)
+    role = models.CharField(max_length=50, null=True, blank=True, editable=False)
+    institution = models.CharField(max_length=50, null=True, blank=True, editable=False)
+    #trusted_role = models.ForeignKey(Trusted_role, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = ("Histories")

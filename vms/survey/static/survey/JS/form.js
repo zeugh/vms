@@ -1,30 +1,53 @@
 // textbox for manual entry of role must be hidden by default
-$("#id_role").parents('div').hide()
+//$("#id_role").parents('div').hide()
+// textbox for manual entry of institution must be hidden by default
+$("#id_institution").parents('div').hide()
 // textbox for manual entry of reason must be hidden by default
 $("#id_reason").parents('div').hide()
 
-var checkBox = document.getElementById("id_nightstay");
-var chosen_role = document.getElementById("id_role_dropdown")
+//var checkBox = document.getElementById("id_nightstay");
+//var chosen_role = document.getElementById("id_role_dropdown")
+var chosen_institution = document.getElementById("id_institution_dropdown")
 var chosen_reason = document.getElementById("id_reason_dropdown")
-var role_text = chosen_role.options[chosen_role.selectedIndex].text
+//var role_text = chosen_role.options[chosen_role.selectedIndex].text
+var institution_text = chosen_institution.options[chosen_institution.selectedIndex].text
 var reason_text = chosen_reason.options[chosen_reason.selectedIndex].text
 // id_role always has a copy of the data chosen from the dropdown
-document.getElementById("id_role").value = role_text
+//document.getElementById("id_role").value = role_text
+// id_institution always has a copy of the data chosen from the dropdown
+document.getElementById("id_institution").value = institution_text
 // id_reason always has a copy of the data chosen from the dropdown
 document.getElementById("id_reason").value = reason_text
 // called each time there a different option in the role dropdown is chosen
-$("#id_role_dropdown").change(function () {
-    role_text = chosen_role.options[chosen_role.selectedIndex].text
+//$("#id_role_dropdown").change(function () {
+//    role_text = chosen_role.options[chosen_role.selectedIndex].text
     // id_role stores the data from the dropdown
-    document.getElementById("id_role").value = role_text
+//    document.getElementById("id_role").value = role_text
     // id_role is made visible so user can manually enter their role
-    if (chosen_role.value === 'other') {
-        $("#id_role").parents('div').show()
-        document.getElementById("id_role").value = ''
-        document.getElementById("id_role").placeholder = 'Explain your Role'
+//    if (chosen_role.value === 'other') {
+//        $("#id_role").parents('div').show()
+//        document.getElementById("id_role").value = ''
+//        document.getElementById("id_role").placeholder = 'Explain your Role'
+//    }
+//    else {
+//        $("#id_role").parents('div').hide()
+//    }
+//
+//})
+
+// called each time there a different option in the institution dropdown is chosen
+$("#id_institution_dropdown").change(function () {
+    institution_text = chosen_institution.options[chosen_institution.selectedIndex].text
+    // id_institution stores the data from the dropdown
+    document.getElementById("id_institution").value = institution_text
+    // id_institution is made visible so user can manually enter their institution
+    if (chosen_institution.value === 'other') {
+        $("#id_institution").parents('div').show()
+        document.getElementById("id_institution").value = ''
+        document.getElementById("id_institution").placeholder = 'Institusi Anda'
     }
     else {
-        $("#id_role").parents('div').hide()
+        $("#id_institution").parents('div').hide()
     }
 
 })
@@ -37,7 +60,7 @@ $("#id_reason_dropdown").change(function () {
     if (chosen_reason.value === 'other') {
         $("#id_reason").parents('div').show()
         document.getElementById("id_reason").value = ''
-        document.getElementById("id_reason").placeholder = 'Explain your Reason'
+        document.getElementById("id_reason").placeholder = 'Kegiatan Anda'
     }
     else {
         $("#id_reason").parents('div').hide()
@@ -105,15 +128,20 @@ else if (s > -1) {
 //})
 
 // this is mainly to prevent page from resetting when it is reloaded
-if (chosen_role.value === 'other') {
-    $("#id_role").parents('div').show()
-    document.getElementById("id_role").value = ''
-    document.getElementById("id_role").placeholder = 'Explain your Role'
+//if (chosen_role.value === 'other') {
+//    $("#id_role").parents('div').show()
+//    document.getElementById("id_role").value = ''
+//    document.getElementById("id_role").placeholder = 'Explain your Role'
+//}
+if (chosen_institution.value === 'other') {
+    $("#id_institution").parents('div').show()
+    document.getElementById("id_institution").value = ''
+    document.getElementById("id_institution").placeholder = 'Institusi Anda'
 }
 if (chosen_reason.value === 'other') {
     $("#id_reason").parents('div').show()
     document.getElementById("id_reason").value = ''
-    document.getElementById("id_reason").placeholder = 'Explain your Reason'
+    document.getElementById("id_reason").placeholder = 'Kegiatan Anda'
 }
 // this is mainly to make sure page acts appropriately when reloaded
 //if (checkBox.checked === false) {
